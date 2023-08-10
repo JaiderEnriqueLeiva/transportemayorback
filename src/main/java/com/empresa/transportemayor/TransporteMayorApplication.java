@@ -6,8 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class TransporteMayorApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(TransporteMayorApplication.class, args);
-	}
-
+  public static void main(String[] args) {
+    SpringApplication.run(TransporteMayorApplication.class, args);
+  }
 }
