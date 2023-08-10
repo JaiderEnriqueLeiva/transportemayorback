@@ -1,13 +1,15 @@
 package com.empresa.transportemayor.controller;
 
+import com.empresa.transportemayor.dto.AuthResponseDto;
 import com.empresa.transportemayor.dto.LoginDto;
 import com.empresa.transportemayor.dto.RegisterDto;
 import com.empresa.transportemayor.models.Role;
 import com.empresa.transportemayor.models.UserEntity;
 import com.empresa.transportemayor.repository.RoleRepository;
 import com.empresa.transportemayor.repository.UserRepository;
+import com.empresa.transportemayor.security.JWTGenerator;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@AllArgsConstructor
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -28,27 +31,17 @@ public class AuthController {
   private final UserRepository userRepository;
   private final RoleRepository roleRepository;
   private final PasswordEncoder passwordEncoder;
-
-  @Autowired
-  public AuthController(
-      AuthenticationManager authenticationManager,
-      UserRepository userRepository,
-      RoleRepository roleRepository,
-      PasswordEncoder passwordEncoder) {
-    this.authenticationManager = authenticationManager;
-    this.userRepository = userRepository;
-    this.roleRepository = roleRepository;
-    this.passwordEncoder = passwordEncoder;
-  }
+  private final JWTGenerator jwtGenerator;
 
   @PostMapping("login")
-  public ResponseEntity<String> login(@RequestBody LoginDto loginDto) {
+  public ResponseEntity<AuthResponseDto> login(@RequestBody LoginDto loginDto) {
     Authentication authentication =
         authenticationManager.authenticate(
             new UsernamePasswordAuthenticationToken(
                 loginDto.getUsername(), loginDto.getPassword()));
     SecurityContextHolder.getContext().setAuthentication(authentication);
-    return new ResponseEntity<>("Login OK!", HttpStatus.OK);
+    String token = jwtGenerator.generaToken(authentication);
+    return new ResponseEntity<>(new AuthResponseDto(token), HttpStatus.OK);
   }
 
   @PostMapping("register")
