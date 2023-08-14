@@ -24,4 +24,5 @@ public class MaintenanceEntity {
 
   private String patent;
   private String typeman;
+  private String username;
 }

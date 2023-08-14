@@ -23,4 +23,6 @@ public class MaintenanceDto {
   @NotNull(message = "TypeMaintenance can't be Null!")
   @NotBlank(message = "TypeMaintenance can't be Blank!")
   private String typeman;
+
+  private String username;
 }

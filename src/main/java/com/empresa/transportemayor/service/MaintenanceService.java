@@ -31,6 +31,7 @@ public class MaintenanceService {
                 MaintenanceDto.builder()
                     .patent(maintenanceEntity.getPatent())
                     .typeman(maintenanceEntity.getTypeman())
+                    .username(maintenanceEntity.getUsername())
                     .build())
         .collect(Collectors.toList());
   }
@@ -39,6 +40,7 @@ public class MaintenanceService {
     return MaintenanceEntity.builder()
         .patent(maintenanceDto.getPatent())
         .typeman(maintenanceDto.getTypeman())
+        .username("Jose") // todo inyectar username real
         .build();
   }
 }
