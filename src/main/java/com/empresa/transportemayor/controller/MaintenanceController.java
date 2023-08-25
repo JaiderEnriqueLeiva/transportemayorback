@@ -1,22 +1,21 @@
 package com.empresa.transportemayor.controller;
 
 import com.empresa.transportemayor.dto.MaintenanceDto;
+import com.empresa.transportemayor.exception.ExceptionApp;
 import com.empresa.transportemayor.service.MaintenanceService;
+import com.empresa.transportemayor.service.VehicleService;
 import java.util.List;
+import java.util.Map;
 import javax.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @AllArgsConstructor
 @RestController
 @RequestMapping("/api/maintenance")
+@CrossOrigin(origins = "*")
 public class MaintenanceController {
 
   /*todo mantenimientos
@@ -26,14 +25,20 @@ public class MaintenanceController {
    */
 
   private final MaintenanceService maintenanceService;
+  private final VehicleService vehicleService;
 
   @PostMapping()
-  public ResponseEntity<String> createMaintenance(
+  public ResponseEntity<Map<String, String>> createMaintenance(
       @RequestBody @Valid MaintenanceDto maintenanceDto) {
 
-    maintenanceService.createMaintenance(maintenanceDto);
-    return new ResponseEntity<>(
-        "Maintenance Created OK: " + maintenanceDto.getPatent(), HttpStatus.CREATED);
+    if (vehicleService.readVehicleByPatent(maintenanceDto.getPatent()).isPresent()) {
+
+      maintenanceService.createMaintenance(maintenanceDto);
+      return new ResponseEntity<>(
+          Map.of("Message", "Fix Created " + maintenanceDto.getPatent()), HttpStatus.CREATED);
+    } else {
+      throw new ExceptionApp("Patent Should Exist en Db!", HttpStatus.CONFLICT.toString());
+    }
   }
 
   @GetMapping("/{patent}")

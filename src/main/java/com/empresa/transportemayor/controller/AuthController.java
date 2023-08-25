@@ -3,12 +3,14 @@ package com.empresa.transportemayor.controller;
 import com.empresa.transportemayor.dto.AuthResponseDto;
 import com.empresa.transportemayor.dto.LoginDto;
 import com.empresa.transportemayor.dto.RegisterDto;
+import com.empresa.transportemayor.exception.ExceptionApp;
 import com.empresa.transportemayor.models.Role;
 import com.empresa.transportemayor.models.UserEntity;
 import com.empresa.transportemayor.repository.RoleRepository;
 import com.empresa.transportemayor.repository.UserRepository;
 import com.empresa.transportemayor.security.JWTGenerator;
 import java.util.List;
+import java.util.Map;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,14 +19,12 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @AllArgsConstructor
 @RestController
 @RequestMapping("/api/auth")
+@CrossOrigin(origins = "*")
 public class AuthController {
 
   private final AuthenticationManager authenticationManager;
@@ -45,9 +45,9 @@ public class AuthController {
   }
 
   @PostMapping("register")
-  public ResponseEntity<String> register(@RequestBody RegisterDto registerDto) {
+  public ResponseEntity<Map<String, String>> register(@RequestBody RegisterDto registerDto) {
     if (userRepository.existsByUsername(registerDto.getUsername())) {
-      return new ResponseEntity<>("Nombre de usuario existente", HttpStatus.BAD_REQUEST);
+      throw new ExceptionApp("Username exist in db!", HttpStatus.CONFLICT.toString());
     }
 
     UserEntity user = new UserEntity();
@@ -58,6 +58,7 @@ public class AuthController {
     user.setRoles(List.of(roles));
 
     userRepository.save(user);
-    return new ResponseEntity<>("Usuario Regitrado", HttpStatus.CREATED);
+    return new ResponseEntity<>(
+        Map.of("Message", "User Created: " + registerDto.getUsername()), HttpStatus.CREATED);
   }
 }

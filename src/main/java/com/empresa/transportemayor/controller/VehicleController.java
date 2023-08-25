@@ -2,12 +2,13 @@ package com.empresa.transportemayor.controller;
 
 import com.empresa.transportemayor.dto.VehicleDto;
 import com.empresa.transportemayor.dto.VehicleEditDto;
+import com.empresa.transportemayor.exception.ExceptionApp;
 import com.empresa.transportemayor.service.VehicleService;
 import java.util.List;
+import java.util.Map;
 import javax.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,15 +28,15 @@ public class VehicleController {
   private final VehicleService vehicleService;
 
   @PostMapping()
-  public ResponseEntity<String> createVehicle(@RequestBody @Valid VehicleDto vehicleDto) {
+  public ResponseEntity<Map<String, String>> createVehicle(
+      @RequestBody @Valid VehicleDto vehicleDto) {
 
     if (vehicleService.readVehicleByPatent(vehicleDto.getPatent()).isPresent()) {
-      return new ResponseEntity<>(
-          "Vehicle Existent: " + vehicleDto.getPatent(), HttpStatus.CONFLICT);
+      throw new ExceptionApp("Patent Exist in Db!", HttpStatus.CONFLICT.toString());
     }
     vehicleService.createVehicle(vehicleDto);
     return new ResponseEntity<>(
-        "Vehicle Created OK: " + vehicleDto.getPatent(), HttpStatus.CREATED);
+        Map.of("Message", "Vehicle Created " + vehicleDto.getPatent()), HttpStatus.CREATED);
   }
 
   @GetMapping
