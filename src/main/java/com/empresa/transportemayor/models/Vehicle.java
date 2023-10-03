@@ -1,5 +1,6 @@
 package com.empresa.transportemayor.models;
 
+import java.time.LocalDate;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -20,4 +21,6 @@ public class Vehicle {
   @Id @GeneratedValue private int id;
   private String patent;
   private String model;
+  private LocalDate yearmodel;
+  private String color;
 }

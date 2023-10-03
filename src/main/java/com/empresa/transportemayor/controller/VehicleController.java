@@ -50,9 +50,9 @@ public class VehicleController {
   }
 
   @PutMapping("/patent/{patent}")
-  public ResponseEntity<String> editVehicle(
+  public ResponseEntity<Map<String, String>> editVehicle(
       @PathVariable String patent, @RequestBody VehicleEditDto vehicleEditDto) {
     vehicleService.updateVehicle(patent, vehicleEditDto);
-    return new ResponseEntity<>("Check Register!", HttpStatus.OK);
+    return new ResponseEntity<>(Map.of("message", "Check Register!"), HttpStatus.OK);
   }
 }

@@ -22,6 +22,8 @@ public class VehicleService {
         Vehicle.builder()
             .patent(vehicleDto.getPatent().toUpperCase())
             .model(vehicleDto.getModel())
+            .yearmodel(vehicleDto.getYearmodel())
+            .color(vehicleDto.getColor())
             .build();
     vehicleRepository.save(vehicle);
   }
@@ -37,7 +39,11 @@ public class VehicleService {
   }
 
   public void updateVehicle(String patent, VehicleEditDto vehicleEditDto) {
-    vehicleRepository.updateVehicle(vehicleEditDto.getModel(), patent);
+    vehicleRepository.updateVehicle(
+        vehicleEditDto.getModel(),
+        vehicleEditDto.getYearmodel(),
+        vehicleEditDto.getColor(),
+        patent);
   }
 
   // todo esto son basicamente mappers, se editan al colocar mas propiedades a los models
@@ -48,6 +54,10 @@ public class VehicleService {
                 VehicleDto.builder()
                     .patent(vehicleEntity.getPatent().toUpperCase())
                     .model(vehicleEntity.getModel())
+                    // .yearmodel(vehicleEntity.getYearmodel().toInstant().atZone(ZoneId.systemDefault())
+                    // .toLocalDate())
+                    .yearmodel(vehicleEntity.getYearmodel())
+                    .color(vehicleEntity.getColor())
                     .build())
         .collect(Collectors.toList());
   }
@@ -56,6 +66,8 @@ public class VehicleService {
     return VehicleDto.builder()
         .patent(vehicle.getPatent().toUpperCase())
         .model(vehicle.getModel())
+        .yearmodel(vehicle.getYearmodel())
+        .color(vehicle.getColor())
         .build();
   }
 }

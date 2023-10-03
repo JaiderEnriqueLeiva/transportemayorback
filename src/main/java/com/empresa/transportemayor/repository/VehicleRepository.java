@@ -1,6 +1,7 @@
 package com.empresa.transportemayor.repository;
 
 import com.empresa.transportemayor.models.Vehicle;
+import java.time.LocalDate;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -14,6 +15,6 @@ public interface VehicleRepository extends JpaRepository<Vehicle, Long> {
 
   @Transactional
   @Modifying
-  @Query("UPDATE Vehicle v SET v.model = ?1 WHERE v.patent = ?2")
-  void updateVehicle(String newModel, String patent);
+  @Query("UPDATE Vehicle v SET v.model = ?1, v.yearmodel = ?2, v.color = ?3 WHERE v.patent = ?4")
+  void updateVehicle(String newModel, LocalDate newYearModel, String newColor, String patent);
 }
