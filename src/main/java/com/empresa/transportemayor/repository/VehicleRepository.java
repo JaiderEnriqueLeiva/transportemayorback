@@ -15,6 +15,8 @@ public interface VehicleRepository extends JpaRepository<Vehicle, Long> {
 
   @Transactional
   @Modifying
-  @Query("UPDATE Vehicle v SET v.model = ?1, v.yearmodel = ?2, v.color = ?3 WHERE v.patent = ?4")
-  void updateVehicle(String newModel, LocalDate newYearModel, String newColor, String patent);
+  @Query(
+      "UPDATE Vehicle v SET v.model = ?1, v.yearmodel = ?2, v.color = ?3, v.email = ?4 WHERE v.patent = ?5")
+  void updateVehicle(
+      String newModel, LocalDate newYearModel, String newColor, String email, String patent);
 }

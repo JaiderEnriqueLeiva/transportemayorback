@@ -28,4 +28,5 @@ public class VehicleDto {
   private LocalDate yearmodel;
 
   private String color;
+  private String email;
 }

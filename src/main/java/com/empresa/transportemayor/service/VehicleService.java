@@ -24,6 +24,7 @@ public class VehicleService {
             .model(vehicleDto.getModel())
             .yearmodel(vehicleDto.getYearmodel())
             .color(vehicleDto.getColor())
+            .email(vehicleDto.getEmail())
             .build();
     vehicleRepository.save(vehicle);
   }
@@ -43,6 +44,7 @@ public class VehicleService {
         vehicleEditDto.getModel(),
         vehicleEditDto.getYearmodel(),
         vehicleEditDto.getColor(),
+        vehicleEditDto.getEmail(),
         patent);
   }
 
@@ -54,10 +56,9 @@ public class VehicleService {
                 VehicleDto.builder()
                     .patent(vehicleEntity.getPatent().toUpperCase())
                     .model(vehicleEntity.getModel())
-                    // .yearmodel(vehicleEntity.getYearmodel().toInstant().atZone(ZoneId.systemDefault())
-                    // .toLocalDate())
                     .yearmodel(vehicleEntity.getYearmodel())
                     .color(vehicleEntity.getColor())
+                    .email(vehicleEntity.getEmail())
                     .build())
         .collect(Collectors.toList());
   }
@@ -68,6 +69,7 @@ public class VehicleService {
         .model(vehicle.getModel())
         .yearmodel(vehicle.getYearmodel())
         .color(vehicle.getColor())
+        .email(vehicle.getEmail())
         .build();
   }
 }

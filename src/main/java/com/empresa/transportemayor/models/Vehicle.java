@@ -23,4 +23,6 @@ public class Vehicle {
   private String model;
   private LocalDate yearmodel;
   private String color;
+
+  private String email;
 }
