@@ -41,8 +41,8 @@ public class MaintenanceController {
     }
   }
 
-  @GetMapping("/{patent}")
-  public List<MaintenanceDto> readAllMaintenanceByPatent(@PathVariable String patent) {
-    return maintenanceService.readAllMaintenanceByPatent(patent);
+  @GetMapping()
+  public List<MaintenanceDto> readAllMaintenanceByPatent() {
+    return maintenanceService.readAllMaintenanceByPatent();
   }
 }

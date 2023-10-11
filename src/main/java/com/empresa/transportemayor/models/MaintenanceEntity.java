@@ -1,5 +1,6 @@
 package com.empresa.transportemayor.models;
 
+import java.time.LocalDate;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -24,5 +25,7 @@ public class MaintenanceEntity {
 
   private String patent;
   private String typeman;
+  private String description;
+  private LocalDate fecha;
   private String username;
 }

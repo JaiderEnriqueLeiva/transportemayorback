@@ -1,5 +1,6 @@
 package com.empresa.transportemayor.security;
 
+import java.util.Arrays;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,8 +17,6 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import java.util.Arrays;
-
 @AllArgsConstructor
 @Configuration
 @EnableWebSecurity
@@ -29,7 +28,8 @@ public class SecurityConfig {
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     http.csrf()
         .disable()
-            .cors().and()
+        .cors()
+        .and()
         .exceptionHandling()
         .authenticationEntryPoint(authEntryPoint)
         .and()
@@ -40,8 +40,8 @@ public class SecurityConfig {
         .antMatchers("/api/auth/**")
         .permitAll()
         .anyRequest()
-        //.permitAll()
-         .authenticated()
+        // .permitAll()
+        .authenticated()
         .and()
         .httpBasic();
     http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
@@ -63,7 +63,6 @@ public class SecurityConfig {
   public JWTAuthenticationFilter jwtAuthenticationFilter() {
     return new JWTAuthenticationFilter();
   }
-
 
   @Bean
   CorsConfigurationSource corsConfigurationSource() {

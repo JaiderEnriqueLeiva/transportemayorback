@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.*;
 @AllArgsConstructor
 @RestController
 @RequestMapping("/api/vehicle")
-@CrossOrigin(origins = "*", allowedHeaders = {"Authorization", "Origin"})
+@CrossOrigin(
+    origins = "*",
+    allowedHeaders = {"Authorization", "Origin"})
 public class VehicleController {
 
   /* todo vehiculos:

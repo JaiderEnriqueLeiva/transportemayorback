@@ -1,5 +1,6 @@
 package com.empresa.transportemayor.dto;
 
+import java.time.LocalDate;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -23,6 +24,9 @@ public class MaintenanceDto {
   @NotNull(message = "TypeMaintenance can't be Null!")
   @NotBlank(message = "TypeMaintenance can't be Blank!")
   private String typeman;
+
+  private String description;
+  private LocalDate fecha;
 
   private String username;
 }
